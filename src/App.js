@@ -6,24 +6,11 @@ function App() {
 
   const [appointments, setAppointments] = useState([]);
 
-  const [appointment, setAppointment] = useState({
-    pet: '',
-    owner: '',
-    date: '',
-    hour: '',
-    symptoms: ''
-  });
-
-  const updateAppointment = (e) => {
-    setAppointment({
-        ...appointment,
-        [e.target.name]: e.target.value
-      })
-  }
-
   const addAppointment = appointment => {
-    
-
+    setAppointments([
+      ...appointments,
+      appointment
+    ]);
   }
 
   return (
@@ -34,8 +21,6 @@ function App() {
           <div className="one-half column">
             <h2>Create Appointment</h2>
             <Form
-              appointment={appointment}
-              updateAppointment={updateAppointment}
               addAppointment={addAppointment}
             />
           </div>
@@ -44,6 +29,7 @@ function App() {
             { appointments.map(appointment => 
               (
                 <Appointment
+                  key={appointment.id}
                   appointment={appointment}
                 />
               )

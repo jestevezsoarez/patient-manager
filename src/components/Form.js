@@ -1,9 +1,24 @@
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-const Form = ({appointment, updateAppointment, addAppointment}) => {
+const Form = ({addAppointment}) => {
 
     const [error, setError] = useState(false);
+
+    const [appointment, setAppointment] = useState({
+        pet: '',
+        owner: '',
+        date: '',
+        hour: '',
+        symptoms: ''
+      });
+
+    const updateAppointment = (e) => {
+    setAppointment({
+        ...appointment,
+        [e.target.name]: e.target.value
+        })
+    }
 
     const { pet, owner, date, hour, symptoms } = appointment;
 
@@ -24,7 +39,7 @@ const Form = ({appointment, updateAppointment, addAppointment}) => {
         addAppointment(appointment);
     
         // Reset form
-        updateAppointment({
+        setAppointment({
             pet: '',
             owner: '',
             date: '',
@@ -79,7 +94,7 @@ const Form = ({appointment, updateAppointment, addAppointment}) => {
                 onChange={updateAppointment}
             ></textarea>
             <button
-                className='button eliminar u-full-width'
+                className='button-primary u-full-width'
                 type='submit'
                 onSubmit={submitForm}
             >Add Appointment</button>
