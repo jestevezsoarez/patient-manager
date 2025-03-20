@@ -1,17 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
-const Form = ({appointment, updateAppointment}) => {
+const Form = ({appointment, updateAppointment, addAppointment}) => {
+
+    const [error, setError] = useState(false);
 
     const { pet, owner, date, hour, symptoms } = appointment;
 
     const submitForm = (e) => {
         e.preventDefault();
-        console.log('submit de formulario');
+
+        // Validate
+        if(pet.trim() === '' || owner.trim() === '' || date.trim() === '' || hour.trim() === '' || symptoms.trim() === '') {
+            setError(true);
+            return;
+        }
+
+        // Add id to the appointment
+        setError(false);
+        appointment.id = uuidv4();
+    
+        // Add Appointment
+        addAppointment(appointment);
+    
+        // Reset form
+        updateAppointment({
+            pet: '',
+            owner: '',
+            date: '',
+            hour: '',
+            symptoms: ''
+        });
     }
 
     return (
         <form
             onSubmit={submitForm}>
+            { error ? <p className='alerta-error'>All fields are required</p> : null }
             <label>Pet Name</label>
             <input 
                 type='text'
@@ -54,8 +79,9 @@ const Form = ({appointment, updateAppointment}) => {
                 onChange={updateAppointment}
             ></textarea>
             <button
-                className='button-primary u-full-width'
+                className='button eliminar u-full-width'
                 type='submit'
+                onSubmit={submitForm}
             >Add Appointment</button>
         </form> 
 

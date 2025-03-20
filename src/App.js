@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Form from "./components/Form";
+import Appointment from "./components/Appointment";
 
 function App() {
 
@@ -20,6 +21,11 @@ function App() {
       })
   }
 
+  const addAppointment = appointment => {
+    
+
+  }
+
   return (
     <>
       <h1>Patient Manager</h1>
@@ -30,11 +36,18 @@ function App() {
             <Form
               appointment={appointment}
               updateAppointment={updateAppointment}
+              addAppointment={addAppointment}
             />
           </div>
           <div className="one-half column">
             <h2>Scheduler</h2>
-
+            { appointments.map(appointment => 
+              (
+                <Appointment
+                  appointment={appointment}
+                />
+              )
+            )}
           </div>
         </div>
       </div>
