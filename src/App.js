@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Form from "./components/Form";
 import Appointment from "./components/Appointment";
 
+import PropTypes from 'prop-types';
+
 function App() {  
   
   let initialAppointments = JSON.parse(localStorage.getItem('appointments'));
@@ -19,7 +21,7 @@ function App() {
     } else {
       localStorage.setItem('appointments', JSON.stringify([]));
     }
-  },[appointments])
+  },[appointments, initialAppointments])
 
   const addAppointment = appointment => {
     setAppointments([
@@ -60,6 +62,15 @@ function App() {
       </div>
     </>
   );
+}
+
+Form.propTypes = {
+  addAppointment: PropTypes.func.isRequired
+};
+
+Appointment.propTypes = {
+  appointment: PropTypes.object.isRequired,
+  deleteAppointment: PropTypes.func.isRequired
 }
 
 export default App;
