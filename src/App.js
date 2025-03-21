@@ -1,10 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Form from "./components/Form";
 import Appointment from "./components/Appointment";
 
-function App() {
+function App() {  
+  
+  let initialAppointments = JSON.parse(localStorage.getItem('appointments'));
+  if(!initialAppointments) {
+    initialAppointments = [];
+  }
 
-  const [appointments, setAppointments] = useState([]);
+  const [appointments, setAppointments] = useState(initialAppointments);
+
+  const title = appointments.length === 0 ? 'There is no Appointments' : 'Scheduler';
+
+  useEffect(() => {
+    if(initialAppointments) {
+      localStorage.setItem('appointments', JSON.stringify(appointments));
+    } else {
+      localStorage.setItem('appointments', JSON.stringify([]));
+    }
+  },[appointments])
 
   const addAppointment = appointment => {
     setAppointments([
@@ -12,8 +27,6 @@ function App() {
       appointment
     ]);
   }
-
-  const title = appointments.length === 0 ? 'There is no Appointments' : 'Scheduler';
 
   const deleteAppointment = id => {
     const newAppointments = appointments.filter(appointment => appointment.id !== id);
